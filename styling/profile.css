@@ -1,0 +1,57 @@
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 40px;
+    margin-right: 40px; 
+   
+
+}
+
+
+
+
+
+.userProf {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sec2 {
+    display: flex;
+    width: 80%;
+    margin-top: 40px;
+    justify-content: center;
+    gap: 10px;
+    
+    
+}
+.sec2 img {
+    margin: 10px;
+}
+.profInfo .name {
+    font-size: 32px;
+}
+.profInfo .location {
+    font-size: 18px;
+}
+
+.delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #E99060;
+    padding: 8px;
+    width: 100px;
+    border: none;
+    margin: auto;
+    margin-top: 100px;
+
+}
+
+.back {
+   display: flex;
+   align-self: flex-start;
+   text-decoration: none;
+   margin: 40px;
+}

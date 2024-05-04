@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  type="module" src="/javascript/login.js" defer> </script>
+    <link rel="stylesheet" href="/styling/style.css">
+    <style>
+        .option {
+            display: flex;
+            align-items: center;
+        }
+        .center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #FBEEDF ;
+            width: 80%;
+            gap: 10px;
+            border-radius: 15px;
+            padding: 10px;
+
+        }
+        form, label, input, button {
+            margin-bottom: 10px;
+        }
+        input {
+            padding: 10px;
+            border-radius: 10px;
+            border: 0.5px solid black;
+            width: 200px;
+        }
+        .btn {
+            background-color: #FF8D4E;
+            border: none;
+            padding: 10px;
+            border-radius: 50px;
+            font-weight: 500;
+            color: white;
+            display: block;
+            text-align: center;
+            margin: auto;
+        }
+        label {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="center">
+        <img src="/src/tara rent.png" width="100px">
+        <h1>LOGIN</h1>
+        <form action="#">  <label for="username">Email:</label>
+            <input type="text" id="email" name="email" placeholder="Email">
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter Password">
+            <br>
+            <button class="btn" type="submit" id="submit">Sign up</button>
+        </form>
+        <div class="option">
+            <p> Don't have an account?  </p> 
+            <a href="signup.html" target="_self" style="color: #FF8D4E;"> Sign Up </a>
+    
+        </div>
+    </div>
+    
+    
+</body>
+
+</html>

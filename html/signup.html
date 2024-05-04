@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styling/style.css">
+    <style >
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+        }
+        .option {
+            display: flex;
+            align-items: center;
+        }
+        .center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #FBEEDF ;
+            width: 80%;
+            gap: 10px;
+            border-radius: 15px;
+            padding: 10px;
+
+        }
+        form, label, input, button {
+            margin-bottom: 10px;
+        }
+        input {
+            padding: 10px;
+            border-radius: 10px;
+            border: 0.5px solid black;
+            width: 200px;
+
+        }
+        .btn {
+            background-color: #FF8D4E;
+            border: none;
+            padding: 10px;
+            border-radius: 50px;
+            font-weight: 500;
+            color: white;
+            display: block;
+            text-align: center;
+            margin: auto;
+        }
+        label {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="center">
+        <img src="/src/tara rent.png" width="100px">
+        <h1>Create An Account</h1>
+        <form action="#">  
+            <label for="fullname">Full Name:</label>
+            <input type="fullname" id="fullname" name="fullname" placeholder="Full Name">
+            <br>
+            <label for="phonenum">Phone Number:</label>
+            <input type="phonenum" id="phonenum" name="phonenum" placeholder="Phone Number">
+            <br>
+            <label for="place">Place:</label>
+            <input type="place" id="place" name="place" placeholder="Place">
+            <br>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" placeholder="Email">
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Password">
+            <br>
+            
+            <button class="btn" type="submit" id="submit">Sign up</button>
+        </form>
+        <div class="option">
+            <p> Already have an account?  </p> 
+            <a href="login.html" target="_self" style="color: #FF8D4E;"> Login </a>
+
+        </div>
+    </div>
+    
+</body>
+<!-- <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js" > </script>
+<script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js" > </script>
+<script src=" https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js" ></script> -->
+<script  type="module" src="/javascript/signup.js" defer> </script>
+
+</html>
