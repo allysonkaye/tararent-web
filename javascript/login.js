@@ -2,7 +2,7 @@
  
  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
  import { getDatabase, get, ref, child } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
-   import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+ import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
    const firebaseConfig = {
      apiKey: "AIzaSyBAntVFheC4AyJ5n6BGMvZzbfJtisDGafw",
      authDomain: "admintararent.firebaseapp.com",
