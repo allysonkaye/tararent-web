@@ -17,7 +17,7 @@ import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
-const auth = getAuth();
+const auth = getAuth(app);
 
 document.getElementById('submit').addEventListener('click', (e) => {
     e.preventDefault();
@@ -33,10 +33,10 @@ document.getElementById('submit').addEventListener('click', (e) => {
             const user = userCredential.user;
             // ...
             set(ref(database, 'user/' + user.uid), {
-              email : email,
-              fullname : fullname,
-              phonenum : phonenum,
-              place : place,
+              fullname: fullname,
+              phonenum: phonenum,
+              place: place,
+              email: email
             }
 
             )

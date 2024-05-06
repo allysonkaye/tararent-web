@@ -4,8 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/styling/style.css">
+    <script src="https://kit.fontawesome.com/9339802a43.js" crossorigin="anonymous"></script>
 </head>
+<style> 
+.event {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.event h2 {
+    margin: 30px 0px 5px 0px;
+}
+.carInfo {
+    margin: 5px;
+}
+</style>
 <body>
+    <nav>
+        <div class="logo">
+            <img class="logoImg" src="/src/tara rent.png" width="50px" height="50px">
+         <p class="logoName">TARA RENT</p>
+        </div>
+        <div class="user">
+           <a href="profile.html" target="_self" >
+            <i class="fa-regular fa-user fa-2x" style="color: #131415;"> </i>
+           </a> 
+        </div>
+        
+    </nav>
+    <div class="navbarcont">
+        <div class="navBar"> 
+
+            <a href="index.html" target="_self"> <img width="30" height="30" src="https://img.icons8.com/parakeet-line/96/group.png" alt="group"/> </a>
+            <a href="status.html" target="_self"> <img src="/src/tara rent.png" width="30px" height="30px"> </a>
+            <a href="message.html" target="_self"> <img width="30" height="30" src="https://img.icons8.com/ios/50/chat-message--v1.png" alt="chat-message--v1"/></i> </a>
     
+        </div>
+    </div>
+    <div class="event">
+        <h2> NAME OF EVENT</h2>
+        <p class="carInfo"> when </p>
+        <p class="carInfo"> where </p>
+    </div>
+    <hr style="margin: 10px 30px;">
+
+    <!-- dito nakalagay mga list ng cars -->
+    
+    <!-- <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase.js"> </script> -->
+    <script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyBAntVFheC4AyJ5n6BGMvZzbfJtisDGafw",
+          authDomain: "admintararent.firebaseapp.com",
+          databaseURL: "https://admintararent-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "admintararent",
+          storageBucket: "admintararent.appspot.com",
+          messagingSenderId: "419063988334",
+          appId: "1:419063988334:web:c2e91de332e34e53c6267f",
+          measurementId: "G-619H3PF5LZ"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        // firebase.initializeApp(firebaseConfig);
+
+        
+        
+      </script>
+
 </body>
 </html>
