@@ -30,6 +30,8 @@
         </div>
     </div>
     <h1 class="pageName"> Carpool Sharing</h1>
+
+    <h1 id="check"> </h1>
     
     <!-- <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase.js"> </script> -->
     <script type="module">
@@ -38,27 +40,52 @@
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
 
 
-        const firebaseConfig = {
-          apiKey: "AIzaSyBAntVFheC4AyJ5n6BGMvZzbfJtisDGafw",
-          authDomain: "admintararent.firebaseapp.com",
-          databaseURL: "https://admintararent-default-rtdb.asia-southeast1.firebasedatabase.app",
-          projectId: "admintararent",
-          storageBucket: "admintararent.appspot.com",
-          messagingSenderId: "419063988334",
-          appId: "1:419063988334:web:c2e91de332e34e53c6267f",
-          measurementId: "G-619H3PF5LZ"
-        };
-      
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        // firebase.initializeApp(firebaseConfig);
+    const firebaseConfig = {
+        apiKey: "AIzaSyBAntVFheC4AyJ5n6BGMvZzbfJtisDGafw",
+        authDomain: "admintararent.firebaseapp.com",
+        databaseURL: "https://admintararent-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "admintararent",
+        storageBucket: "admintararent.appspot.com",
+        messagingSenderId: "419063988334",
+        appId: "1:419063988334:web:c2e91de332e34e53c6267f",
+        measurementId: "G-619H3PF5LZ"
+    };
+    
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    // firebase.initializeApp(firebaseConfig);
 
-        const userCreds = JSON.parse(sessionStorage.getItem("user-creds"));
-        const userInfo = JSON.parse(sessionStorage.getItem("user-info"));
+    const userCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+    const userInfo = JSON.parse(sessionStorage.getItem("user-info"));
 
+    const check = document.getElementById("check");
+
+    let CheckCreds = () => {
+    if (!sessionStorage.getItem("user-creds")) {
+        window.location.href = "login.html";
+        // console.log(userCreds);
+        // console.log(userInfo);
+
+    }
+    else {
+        console.log(userCreds);
+        // console.log(userInfo);
+        // it means it works
+        check.innerHTML = `${userInfo.fullname}`;
         
         
-      </script>
+     }
+    }
+
+    
+    window.addEventListener('load', CheckCreds);
+
+    window.addEventListener('beforeunload', ()=> {
+            sessionStorage.setItem("user-creds", JSON.stringify(userCreds));
+            sessionStorage.setItem("user-info", JSON.stringify(userInfo));
+
+    });
+</script>
 
 </body>
 </html>
