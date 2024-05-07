@@ -47,25 +47,25 @@
     let phonenum = document.getElementById("phonenum");
     let logout = document.getElementById("logout");
     
-    // let logoutTimeout;
+    let logoutTimeout;
 
 
     let logOut = () => {
         sessionStorage.removeItem("user-creds");
         sessionStorage.removeItem("user-info");
-        // clearInterval(logoutTimeout);
+        clearInterval(logoutTimeout);
         window.location.href = "login.html";
     }
 
-    // let resetLogoutTimeout = () => {
-    //     clearInterval(logoutTimeout);
-    //     logoutTimeout = setTimeout(()=>{
-    //         Signout();
-    //     }, 60 * 60 * 1000);
-    // }
+    let resetLogoutTimeout = () => {
+        clearInterval(logoutTimeout);
+        logoutTimeout = setTimeout(()=>{
+            Signout();
+        }, 60 * 60 * 1000);
+    }
     let CheckCreds = () => {
         if (!sessionStorage.getItem("user-creds")) {
-            // window.location.href = "login.html";
+            window.location.href = "login.html";
             // console.log(userCreds);
             // console.log(userInfo);
 
@@ -81,7 +81,7 @@
         }
     }
 
-    // resetLogoutTimeout();
+    resetLogoutTimeout();
 
     window.addEventListener('load', CheckCreds);
 
