@@ -30,14 +30,16 @@
         </div>
     </div>
     <h1 class="pageName"> Carpool Sharing</h1>
-
+    <div id="eventContent">
+        <!-- data will display here -->
+    </div>
     <h1 id="check"> </h1>
     
     <!-- <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase.js"> </script> -->
     <script type="module">
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+    import { getDatabase, ref, onValue, get } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
 
 
     const firebaseConfig = {
@@ -53,12 +55,19 @@
     
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-    // firebase.initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const eventDataRef = ref(db, 'Events');
 
+    //session STORAGE
     const userCreds = JSON.parse(sessionStorage.getItem("user-creds"));
     const userInfo = JSON.parse(sessionStorage.getItem("user-info"));
 
     const check = document.getElementById("check");
+
+    
+
+    
+    
 
     let CheckCreds = () => {
     if (!sessionStorage.getItem("user-creds")) {
@@ -71,9 +80,40 @@
         console.log(userCreds);
         // console.log(userInfo);
         // it means it works
-        check.innerHTML = `${userInfo.fullname}`;
+        // check.innerHTML = `${userInfo.fullname}`;
         
+        // FUNCTIONS
         
+        function populateEvent(eventData){
+            const eventDataBody = document.getElementById("eventContent");
+            eventDataBody.innerHTML = '';
+            eventData.forEach(childSnapshot =>{
+                const eventData = childSnapshot.val();
+                const name = eventData.eventName;
+                const venue = eventData.eventVenue;
+                const date_to = eventData.eventDateFrom;
+                const date_from = eventData.eventDateTo;
+                const description = eventData.eventDescription;
+
+                const newDiv = document.createElement('div');
+                newDiv.innerHTML =`
+                    <p>${name}</p>
+                    <p>${venue}</p>
+                    <p>${date_to}</p>
+                    <p>${date_from}</p>
+                    <p>${description}</p>
+                `;
+                eventDataBody.appendChild(newDiv);
+            });
+        }
+
+        onValue(eventDataRef, (snapshot) =>{
+            const eventData = [];
+            snapshot.forEach((childSnapshot) => {
+                eventData.push(childSnapshot);
+            });
+            populateEvent(eventData);
+        });
      }
     }
 
