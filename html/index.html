@@ -7,6 +7,33 @@
     <link rel="stylesheet" href="/styling/style.css">
     <script src="https://kit.fontawesome.com/9339802a43.js" crossorigin="anonymous"></script>
 </head>
+<style>
+    #eventContent {
+        display: grid;
+        grid-template-columns: auto auto;
+        justify-items: center;
+    }
+    #eventBox {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        width: 250px;
+        border: 0.5px solid grey;
+        border-radius: 20px;
+        padding: 10px;
+        background-color: #FCF9F7;
+        
+    }
+    .event {
+        font-size: 25px;
+        font-weight: 700;
+        color: #0B0806 !important ; 
+    }
+    #eventBox p {
+        margin: 5px;
+        color: #373737;
+    }
+</style>
 <body>
     <nav>
         <div class="logo">
@@ -95,15 +122,28 @@
                 const date_from = eventData.eventDateTo;
                 const description = eventData.eventDescription;
 
+                const dateToString = new Date(date_to).toDateString().split(' ').slice(1).join(' ');
+                const dateFromString = new Date(date_from).toDateString().split(' ').slice(1).join(' ');
+
                 const newDiv = document.createElement('div');
+                newDiv.id = "eventBox";
                 newDiv.innerHTML =`
-                    <p>${name}</p>
+                    <p class = "event">${name}</p>
                     <p>${venue}</p>
-                    <p>${date_to}</p>
-                    <p>${date_from}</p>
+                    <p>${dateToString}</p>
+                    <p>${dateFromString}</p>
                     <p>${description}</p>
                 `;
                 eventDataBody.appendChild(newDiv);
+                console.log(eventData)
+                newDiv.addEventListener('click', () => {
+                    sessionStorage.setItem('Event-selected', JSON.stringify(eventData));
+                    window.location.href = "cars.html";
+                });
+                
+                
+                // console.log(dateToString)
+                // console.log(dateFromString)
             });
         }
 

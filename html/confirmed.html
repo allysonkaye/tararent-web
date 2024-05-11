@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>confirmed</title>
+    <link rel="stylesheet" href="/styling/style.css">
+    <!-- <link rel="stylesheet" href="/styling/profile.css"> -->
+    <script src="https://kit.fontawesome.com/9339802a43.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img class="logoImg" src="/src/tara rent.png" width="50px" height="50px">
+            <p class="logoName">TARA RENT</p>
+        </div>
+        <div class="user">
+           <a href="profile.html" target="_self" >
+            <i class="fa-regular fa-user fa-2x" style="color: #131415;"> </i>
+           </a> 
+        </div>
+        
+    </nav>
+    
+
+<script type="module" >
+    let userCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+    let userInfo = JSON.parse(sessionStorage.getItem("user-info"));
+    let eventSelected = JSON.parse(sessionStorage.getItem("Event-selected"));
+    
+    // let fullname = document.getElementById("fullname");
+    // let place = document.getElementById("place");
+    // let email = document.getElementById("email");
+    // let phonenum = document.getElementById("phonenum");
+    // let logout = document.getElementById("logout");
+    
+
+
+</script>
+</body>
+
+
+</html>
