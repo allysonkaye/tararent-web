@@ -61,12 +61,15 @@
     <hr style="margin: 10px 30px;">
 
     <!-- dito nakalagay mga list ng cars -->
+    <div id="carsContent">
+        <!-- data will display here -->
+    </div>
     
     <!-- <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase.js"> </script> -->
     <script type="module">
 
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+import { getDatabase, get, ref, child } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
 
 
         const firebaseConfig = {
@@ -83,6 +86,9 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         // firebase.initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const dbref = ref(db);
+        const carsDataRef = ref(db, 'Events/');
 
         let eventSelected = JSON.parse(sessionStorage.getItem("Event-selected"));
         console.log(eventSelected)
@@ -93,6 +99,7 @@
         const dateFrom = document.getElementById('dateFrom');
         const dateTo = document.getElementById('dateTo');
         const venue = document.getElementById('venue');
+        const carmodel = document.getElementById('carmodel');
 
 
         back.addEventListener('click', () => {
@@ -111,6 +118,46 @@
         dateTo.innerText = `${dateToString}`;
         venue.innerText = `${eventSelected.eventVenue}`;
 
+        // carmodel.innerHTML = `${eventSelected.CarModelEX}`;
+        
+        console.log(carsDataRef)
+
+        get(child(dbref, `Events/${eventSelected.eventName}/Cars`))  
+        .then ((snapshot) => {
+            console.log(snapshot.val());
+            
+            
+            snapshot.forEach((snapshot) => {
+                const carsData = snapshot.val();
+                
+                
+                console.log(carsData);
+                
+                
+                // get(child(dbref, 'Cars/'))
+                // .then((childSnapshot) => {
+                //     console.log(childSnapshot.val())
+
+
+        
+
+                // });
+
+            });
+            
+
+            // get(child(dbref, `Cars/`))
+            // .then ((childSnapshot) => {
+            //     console.log(childSnapshot.val());
+            //     const carInfo = childSnapshot.val();
+            //     const carName = carInfo.modelName;
+            //     console.log(carsData);
+            //     if (carsData === carName ) {
+            //         // console.log(carsData + carName)
+            //     }
+            // })
+
+         })
         
       </script>
 

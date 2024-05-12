@@ -121,6 +121,7 @@
                 const date_to = eventData.eventDateFrom;
                 const date_from = eventData.eventDateTo;
                 const description = eventData.eventDescription;
+                const pickup = eventData.eventPickup;
 
                 const dateToString = new Date(date_to).toDateString().split(' ').slice(1).join(' ');
                 const dateFromString = new Date(date_from).toDateString().split(' ').slice(1).join(' ');
@@ -132,7 +133,7 @@
                     <p>${venue}</p>
                     <p>${dateToString}</p>
                     <p>${dateFromString}</p>
-                    <p>${description}</p>
+                    <p>${pickup}</p>
                 `;
                 eventDataBody.appendChild(newDiv);
                 console.log(eventData)
