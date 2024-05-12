@@ -24,7 +24,7 @@
     <div class="content">
         <a href="index.html" class="back"> <i class="fa-solid fa-arrow-left fa-2x" style="color: #f49060;"></i></a>
         <div class="sec2">
-           <img src="/src/firstReview.jpg" width="120" height="120" class="userProf">
+           <img src="/src/firstReview.jpg" width="120" height="120" class="userProf" id="userImg">
            <div class="profInfo">
             <P class="name" id="fullname"></P>
             <p class="phonenum" id="phonenum"></p>
@@ -46,6 +46,9 @@
     let email = document.getElementById("email");
     let phonenum = document.getElementById("phonenum");
     let logout = document.getElementById("logout");
+    let userImg = document.getElementById("userImg");
+    
+    
     
     let logoutTimeout;
 
@@ -63,6 +66,12 @@
             Signout();
         }, 60 * 60 * 1000);
     }
+
+    //funtion to upload user profile
+
+    let profile = () => {
+        
+    }
     let CheckCreds = () => {
         if (!sessionStorage.getItem("user-creds")) {
             window.location.href = "login.html";
@@ -71,6 +80,7 @@
 
         }
         else {
+            
             console.log(userCreds);
             console.log(userInfo);
             fullname.innerText = `${userInfo.fullname}`;
