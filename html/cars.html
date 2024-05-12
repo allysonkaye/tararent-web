@@ -29,6 +29,17 @@
    margin-left: 30px;
    left: 0;
 }
+#carsContent {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-items: center;
+}
+#carBox {
+    background-color: #FCF9F7;
+    border: 0.5px solid grey;
+    border-radius: 20px;
+    padding: 10px;
+}
 </style>
 <body>
     <nav>
@@ -62,14 +73,15 @@
 
     <!-- dito nakalagay mga list ng cars -->
     <div id="carsContent">
+
         <!-- data will display here -->
     </div>
     
     <!-- <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase.js"> </script> -->
     <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-import { getDatabase, get, ref, child } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+    import { getDatabase, get, ref, child, onValue } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
 
 
         const firebaseConfig = {
@@ -122,40 +134,63 @@ import { getDatabase, get, ref, child } from "https://www.gstatic.com/firebasejs
         
         console.log(carsDataRef)
 
-        get(child(dbref, `Events/${eventSelected.eventName}/Cars`))  
+        onValue(child(dbref, `Events/${eventSelected.eventName}/Cars`))  
         .then ((snapshot) => {
             console.log(snapshot.val());
             
             
             snapshot.forEach((snapshot) => {
                 const carsData = snapshot.val();
+                const carsModel = carsData.carName;
+                const carsDriver = carsData.Drivers;
+                
+                console.log(carsDriver)
                 
                 
-                console.log(carsData);
-                
-                
-                // get(child(dbref, 'Cars/'))
-                // .then((childSnapshot) => {
-                //     console.log(childSnapshot.val())
+                onValue(child(dbref, 'Cars/'))
+                .then((childSnapshot) => {
+                    // console.log(childSnapshot.val())
+
+                    childSnapshot.forEach((childSnapshot)=> {
+
+                        
+                        const carInfo = childSnapshot.val();
+                        const carName = carInfo.modelName;
+                        // console.log(carName);
 
 
-        
+                        if (carsModel === carName) {
+                            const carDataBody = document.getElementById("carsContent");
+                            carDataBody.innerHTML = '';
+                             console.log(carInfo);
+                             
+                             const carName = carInfo.modelName;
+                             const carCapacity = carInfo.modelCapacity;
+                             
+                             console.log(carName);
+                             console.log(carCapacity);
 
-                // });
+                            const newDiv = document.createElement('div');
+                            newDiv.id = 'carBox';
+                            newDiv.innerHTML = `
+                                <p>${carName}</p>
+                                <p>${eventSelected.eventPickup}</p>
+                                <p>${carCapacity}</p>
+                                <p>${eventSelected.eventPrice}</p>
+                                
+                            `;
+
+                            carDataBody.appendChild(newDiv);
+                            console.log(newDiv)
+                        } else {
+                            // console.log('notsame')
+                        }
+                    })
+
+                    
+                });
 
             });
-            
-
-            // get(child(dbref, `Cars/`))
-            // .then ((childSnapshot) => {
-            //     console.log(childSnapshot.val());
-            //     const carInfo = childSnapshot.val();
-            //     const carName = carInfo.modelName;
-            //     console.log(carsData);
-            //     if (carsData === carName ) {
-            //         // console.log(carsData + carName)
-            //     }
-            // })
 
          })
         
