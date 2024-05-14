@@ -8,6 +8,49 @@
     <!-- <link rel="stylesheet" href="/styling/profile.css"> -->
     <script src="https://kit.fontawesome.com/9339802a43.js" crossorigin="anonymous"></script>
 </head>
+<style>
+    .back {
+   display: flex;
+   position: absolute;
+   align-self: flex-start;
+   text-decoration: none;
+   margin-top: 30px;
+   margin-left: 30px;
+   left: 0;
+}
+.contents {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center ;
+    margin: 40px 20px 10px 20px;
+    
+}
+.info {
+    display: flex;
+    justify-content: space-between;
+    background-color: #FBEEDF;
+    margin: 2px;
+    padding: 0px 20px;
+}
+.carpooling, .payment {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    
+}
+#book {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    background-color: #E99060;
+    padding: 10px;
+    width: 100px;
+    border: none;
+    border-radius: 30px;
+    font-weight: 700;
+}
+</style>
 <body>
     <nav>
         <div class="logo">
@@ -21,20 +64,94 @@
         </div>
         
     </nav>
+
+    <a href="cars.html" class="back" id="back"> <i class="fa-solid fa-arrow-left fa-2x" style="color: #f49060;"></i></a>
+
+    <div class="contents">
+        <h1> Confirm Booking</h1>
+        <hr style="margin: 10px 30px;">
+        <h2> Carpooling Details</h2>
+        <div class="carpooling">
+            <div class="info">
+                <p>Car </p>
+                <p id="car"></p>
+            </div>
+            <div class="info">
+                <p>Destination</p>
+                <p id="place"></p>
+            </div>
+            <div class="info">
+                <p>Event</p>
+                <p id="eventName"></p>
+            </div>
+            <div class="info">
+                <p> Departure</p>
+                <p id="dateFrom"></p>
+            </div>
+            <div class="info">
+                <p>Name of Driver</p>
+                <p id="driver"></p>
+            </div>
+            <div class="info">
+                <p>Pax</p>
+                <p id="pax">1</p>
+            </div>
+        </div>
+        <h2 class="Payment">Payment</h2>
+        <div class="payment">
+            <div class="info">
+                <p>Subtotal:</p>
+                <p id="price"></p>
+            </div>
+            <div class="info">
+                <p>Total:</p>
+                <p id="Totalprice"></p>
+            </div>
+            <p>*The payment will be paid upon the day of the departure</p>
+        </div>
+        <Button id="book">Book now</Button>
+    </div>
     
 
 <script type="module" >
     let userCreds = JSON.parse(sessionStorage.getItem("user-creds"));
     let userInfo = JSON.parse(sessionStorage.getItem("user-info"));
     let eventSelected = JSON.parse(sessionStorage.getItem("Event-selected"));
-    
-    // let fullname = document.getElementById("fullname");
-    // let place = document.getElementById("place");
-    // let email = document.getElementById("email");
-    // let phonenum = document.getElementById("phonenum");
-    // let logout = document.getElementById("logout");
-    
+    let carSelected = JSON.parse(sessionStorage.getItem("car-selected"));
+    let carDriverSelected = JSON.parse(sessionStorage.getItem("carDriver-selected"));
 
+    
+    const back = document.getElementById('back');
+    
+    let carName = document.getElementById("car");
+    let Totalprice = document.getElementById("Totalprice");
+    let price = document.getElementById("price");
+    let place = document.getElementById("place");
+    let eventName = document.getElementById("eventName");
+    let dateFrom = document.getElementById("dateFrom");
+    let driverName = document.getElementById("driver");
+    let pax = document.getElementById("pax").value;
+
+    let book = document.getElementById("book");
+   
+    
+    back.addEventListener('click', () => {
+            sessionStorage.removeItem(eventSelected);
+            sessionStorage.removeItem(carSelected);
+            window.location.href = "index.html";
+        });
+
+        console.log(carSelected);
+        console.log(eventSelected);
+        console.log(carDriverSelected);
+
+        carName.innerText = `${carSelected.modelName}`;
+        place.innerText = `${eventSelected.eventVenue}`;
+        eventName.innerText = `${eventSelected.eventName}`;
+        dateFrom.innerText = `${eventSelected.eventDateFrom}`;
+        driverName.innerText = carDriverSelected;
+        price.innerText = `${eventSelected.eventPrice}`;
+        Totalprice.innerText = `${eventSelected.eventPrice}`;
 
 </script>
 </body>

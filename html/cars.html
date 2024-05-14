@@ -77,7 +77,6 @@
         <!-- data will display here -->
     </div>
     
-    <!-- <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase.js"> </script> -->
     <script type="module">
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
@@ -103,7 +102,7 @@
         const carsDataRef = ref(db, 'Events/');
 
         let eventSelected = JSON.parse(sessionStorage.getItem("Event-selected"));
-        console.log(eventSelected)
+        // console.log(eventSelected)
 
         const back = document.getElementById('back');
 
@@ -132,67 +131,106 @@
 
         // carmodel.innerHTML = `${eventSelected.CarModelEX}`;
         
-        console.log(carsDataRef)
+        // console.log(carsDataRef)
 
+
+        function populateCars(carData, driverName) {
+            const carDataBody = document.getElementById("carsContent");
+            carDataBody.innerHTML = '';
+            carData.forEach(childSnapshot => {
+            const carData = childSnapshot.val();
+            const modelBrand = carData.modelBrand;
+            const modelCapacity = carData.modelCapacity;
+            const modelName = carData.modelName;
+            const modelType = carData.modelType;
+            const modelYear = carData.modelYear;
+            
+
+
+            const newDiv = document.createElement('div');
+            newDiv.id = 'carBox';
+            newDiv.innerHTML = `
+                <p>${modelName}</p>
+                <p>${eventSelected.eventPickup}</p>
+                <p>${modelCapacity}</p>
+                <p>₱ ${eventSelected.eventPrice}</p>
+                <p>${driverName}</p>
+                
+            `;
+
+            carDataBody.appendChild(newDiv);
+            // console.log(carData);
+            console.log(newDiv);
+            newDiv.addEventListener('click', () => {
+                
+                sessionStorage.setItem('car-selected', JSON.stringify(carData));
+                sessionStorage.setItem('carDriver-selected', JSON.stringify(driverName));
+                window.location.href = "confirmed.html";
+            });
+            })
+           
+        }
+
+        // REFERENCES
         const carDataRef = ref(db, `Events/${eventSelected.eventName}/Cars`);
         const carRef = ref(db, 'Cars/');
         
 
+        // find the cars available in the event selected
          onValue(carDataRef, (snapshot)=> {
-            const carData = [];
-            console.log(snapshot.val())
+            
+            // console.log(snapshot.val())
 
             snapshot.forEach((snapshot)=>{
                 const carsData = snapshot.val();
-                const carsModel = carsData.carName;
-                const carsDriver = carsData.Drivers;
+                const carsModel = carsData.carName; // name ng car pero walang info
+                const carsDriver = carsData.Drivers; // list ng driver na ganon ung model ng car na gamit
 
-                console.log(carsDriver)
+                // console.log(carsModel)
 
+                // GET THE CAR INFO 
+        
                 onValue(carRef, (childSnapshot)=> {
+                    
                     // console.log(childSnapshot.val());
                     childSnapshot.forEach((childSnapshot) => {
                         const carInfo = childSnapshot.val();
+                        const carFirebase = childSnapshot;
                         const carName = carInfo.modelName;
-                        console.log(carName);
+                        // console.log(carName);
 
                         if (carsModel === carName) {
-                            
-                             console.log(carInfo);
+                            const carData = [];
+                            const driverData = [];
+
+                            //  console.log(carInfo);
                              
                              const carName = carInfo.modelName;
                              const carCapacity = carInfo.modelCapacity;
+
                              
                              //ref
                              const driverRef = ref(db, `Events/${eventSelected.eventName}/Cars/${carName}/Drivers`);
-                             console.log(carName);
-                             console.log(driverRef);
+                            //  console.log(carName);
+                            //  console.log(driverRef);
 
                              onValue(driverRef, (snapshot)=>{
                                 snapshot.forEach((snapshot) => {
                                     const driverInfo = snapshot.val();
+                                    const driverFirebase = snapshot;
                                     const driverActive = driverInfo.active;
 
                                     if (driverActive === "true") {
+                                        // const driverData = [];
                                         const driverName = driverInfo.driverName;
-                                        console.log(driverName)
-
-
-                                        const carDataBody = document.getElementById("carsContent");
-                                        carDataBody.innerHTML = '';
-                                        const newDiv = document.createElement('div');
-                                        newDiv.id = 'carBox';
-                                        newDiv.innerHTML = `
-                                            <p>${carName}</p>
-                                            <p>${eventSelected.eventPickup}</p>
-                                            <p>${carCapacity}</p>
-                                            <p>${eventSelected.eventPrice}</p>
-                                            
-                                        `;
-
-                                        carDataBody.appendChild(newDiv);
-                                        console.log(newDiv)
-
+                                        // console.log(driverName)
+                                         carData.push(carFirebase); // add the car info in an object
+                                        //  carData.push(driverFirebase);
+                                        
+                                        console.log(carInfo);
+                                        console.log(driverName);
+                                        populateCars(carData, driverName);
+                                        
                                     }
                                 })
 
@@ -203,19 +241,21 @@
                              })
                              
 
+                            // console.log(carData)
+                            
                             
                         } else {
                             
                         }
                     })
-
                 })
-
-
-
             })
             
          })
+
+
+
+
         
       </script>
 
