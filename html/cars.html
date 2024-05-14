@@ -134,64 +134,87 @@
         
         console.log(carsDataRef)
 
-        onValue(child(dbref, `Events/${eventSelected.eventName}/Cars`))  
-        .then ((snapshot) => {
-            console.log(snapshot.val());
-            
-            
-            snapshot.forEach((snapshot) => {
+        const carDataRef = ref(db, `Events/${eventSelected.eventName}/Cars`);
+        const carRef = ref(db, 'Cars/');
+        
+
+         onValue(carDataRef, (snapshot)=> {
+            const carData = [];
+            console.log(snapshot.val())
+
+            snapshot.forEach((snapshot)=>{
                 const carsData = snapshot.val();
                 const carsModel = carsData.carName;
                 const carsDriver = carsData.Drivers;
-                
+
                 console.log(carsDriver)
-                
-                
-                onValue(child(dbref, 'Cars/'))
-                .then((childSnapshot) => {
-                    // console.log(childSnapshot.val())
 
-                    childSnapshot.forEach((childSnapshot)=> {
-
-                        
+                onValue(carRef, (childSnapshot)=> {
+                    // console.log(childSnapshot.val());
+                    childSnapshot.forEach((childSnapshot) => {
                         const carInfo = childSnapshot.val();
                         const carName = carInfo.modelName;
-                        // console.log(carName);
-
+                        console.log(carName);
 
                         if (carsModel === carName) {
-                            const carDataBody = document.getElementById("carsContent");
-                            carDataBody.innerHTML = '';
+                            
                              console.log(carInfo);
                              
                              const carName = carInfo.modelName;
                              const carCapacity = carInfo.modelCapacity;
                              
+                             //ref
+                             const driverRef = ref(db, `Events/${eventSelected.eventName}/Cars/${carName}/Drivers`);
                              console.log(carName);
-                             console.log(carCapacity);
+                             console.log(driverRef);
 
-                            const newDiv = document.createElement('div');
-                            newDiv.id = 'carBox';
-                            newDiv.innerHTML = `
-                                <p>${carName}</p>
-                                <p>${eventSelected.eventPickup}</p>
-                                <p>${carCapacity}</p>
-                                <p>${eventSelected.eventPrice}</p>
+                             onValue(driverRef, (snapshot)=>{
+                                snapshot.forEach((snapshot) => {
+                                    const driverInfo = snapshot.val();
+                                    const driverActive = driverInfo.active;
+
+                                    if (driverActive === "true") {
+                                        const driverName = driverInfo.driverName;
+                                        console.log(driverName)
+
+
+                                        const carDataBody = document.getElementById("carsContent");
+                                        carDataBody.innerHTML = '';
+                                        const newDiv = document.createElement('div');
+                                        newDiv.id = 'carBox';
+                                        newDiv.innerHTML = `
+                                            <p>${carName}</p>
+                                            <p>${eventSelected.eventPickup}</p>
+                                            <p>${carCapacity}</p>
+                                            <p>${eventSelected.eventPrice}</p>
+                                            
+                                        `;
+
+                                        carDataBody.appendChild(newDiv);
+                                        console.log(newDiv)
+
+                                    }
+                                })
+
+
                                 
-                            `;
 
-                            carDataBody.appendChild(newDiv);
-                            console.log(newDiv)
+                                
+                             })
+                             
+
+                            
                         } else {
-                            // console.log('notsame')
+                            
                         }
                     })
 
-                    
-                });
+                })
 
-            });
 
+
+            })
+            
          })
         
       </script>
