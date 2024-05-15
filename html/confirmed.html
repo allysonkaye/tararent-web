@@ -174,8 +174,9 @@
         price.innerText = `${eventSelected.eventPrice}`;
         Totalprice.innerText = `${eventSelected.eventPrice}`;
 
-        userRef = ref(db, `user/${userUid}`);
         
+        const userRef = ref(db, `user/${userUid}/`);
+        console.log(userRef)
 
     book.addEventListener('click', () => {
 
@@ -188,26 +189,34 @@
         DateTo: eventSelected.eventDateTo,
         price: price.value,
 
-    };
-    userRef = ref(db, `user/${userUid}`);
-    add(userRef, bookingData)
-    .then((snapshot)=>{
-        const bookingId = snapshot.key; // Get the generated key
-        const completeBookingData = { // Combine booking ID and data
-        bookingId,
-        bookingData,
-      };
+     };
 
-      userBookingRef = ref(db, `user/${userUid}/bookingId`);
+        const userRef = ref(db, `user/${userUid}`);
 
-      set(userBookingRef, completeBookingData)
-      .then(()=> {
-        console.log(`Booking data added successfully! Booking ID: ${bookingId}`);
-      })
+        set(userRef, bookingData)
+        .then((snapshot)=>{
+            const bookingId = snapshot.uid; // Get the generated key
+            const completeBookingData = { // Combine booking ID and data
+            bookingId,
+            bookingData,
+        };
 
-    })
+        const userBookingRef = ref(db, `user/${userUid}/${bookingId}`);
 
-         
+        set(userBookingRef, completeBookingData)
+            .then(()=> {
+                console.log(`Booking data added successfully! Booking ID: ${bookingId}`);
+            })
+            .catch((error) => {
+            console.error('Error setting complete booking data:', error);
+            });
+
+        })
+            .catch((error) => {
+            console.error('Error adding booking data:', error);
+            });
+
+
     });
     
     
