@@ -41,7 +41,7 @@ import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/fir
             email: snapshot.val().email
           }))
           sessionStorage.setItem("user-creds", JSON.stringify(user));
-          window.location.href = 'profile.html';
+          window.location.href = 'index.html';
         }
       })
      //  window.location.href = "index.html";

@@ -38,7 +38,34 @@
     background-color: #FCF9F7;
     border: 0.5px solid grey;
     border-radius: 20px;
+    
+}
+#carBox {
+    font-size: 18px;
+}
+.carImg {
+    width: 250px;
+    height: 150px;
+    object-fit: cover;
+    margin: 0;
+    padding: 0 !important;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+.carInfo{
     padding: 10px;
+}
+#btn {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    
+    background-color: #E99060;
+    padding: 10px;
+    margin: auto;
+    border: none;
+    border-radius: 30px;
+    width: 80px;
 }
 </style>
 <body>
@@ -140,28 +167,35 @@
             carData.forEach(childSnapshot => {
             const carData = childSnapshot.val();
             const modelBrand = carData.modelBrand;
+            const modelImage = carData.modelImage;
             const modelCapacity = carData.modelCapacity;
             const modelName = carData.modelName;
             const modelType = carData.modelType;
             const modelYear = carData.modelYear;
             
 
-
+               
             const newDiv = document.createElement('div');
             newDiv.id = 'carBox';
             newDiv.innerHTML = `
-                <p>${modelName}</p>
-                <p>${eventSelected.eventPickup}</p>
-                <p>${modelCapacity}</p>
-                <p>₱ ${eventSelected.eventPrice}</p>
-                <p>${driverName}</p>
+                <div>
+                    <img src="${modelImage}" class="carImg">
+                </div>
+                <div class="carInfo"> 
+                    <p>${modelName}</p>
+                    <p>${eventSelected.eventPickup}</p>
+                    <p>${modelCapacity}</p>
+                    <p>₱ ${eventSelected.eventPrice}</p>
+                    <Button id="btn"> Book </Button>
+                    </div>
+                
                 
             `;
 
             carDataBody.appendChild(newDiv);
             // console.log(carData);
             console.log(newDiv);
-            newDiv.addEventListener('click', () => {
+            btn.addEventListener('click', () => {
                 
                 sessionStorage.setItem('car-selected', JSON.stringify(carData));
                 sessionStorage.setItem('carDriver-selected', JSON.stringify(driverName));
