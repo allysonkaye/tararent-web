@@ -163,31 +163,37 @@
 
         function populateCars(carData, driverName) {
             const carDataBody = document.getElementById("carsContent");
-            carDataBody.innerHTML = '';
+            // carDataBody.innerHTML = '';
+
+
             carData.forEach(childSnapshot => {
-            const carData = childSnapshot.val();
-            const modelBrand = carData.modelBrand;
-            const modelImage = carData.modelImage;
-            const modelCapacity = carData.modelCapacity;
-            const modelName = carData.modelName;
-            const modelType = carData.modelType;
-            const modelYear = carData.modelYear;
+
+                const carData = childSnapshot.val();
+
+                const modelBrand = carData.modelBrand;
+                const modelImage = carData.modelImage;
+                const modelCapacity = carData.modelCapacity;
+                const modelName = carData.modelName;
+                const modelType = carData.modelType;
+                const modelYear = carData.modelYear;
             
 
                
-            const newDiv = document.createElement('div');
-            newDiv.id = 'carBox';
-            newDiv.innerHTML = `
-                <div>
-                    <img src="${modelImage}" class="carImg">
-                </div>
-                <div class="carInfo"> 
-                    <p>${modelName}</p>
-                    <p>${eventSelected.eventPickup}</p>
-                    <p>${modelCapacity}</p>
-                    <p>₱ ${eventSelected.eventPrice}</p>
-                    <Button id="btn"> Book </Button>
+                const newDiv = document.createElement('div');
+
+                newDiv.id = 'carBox';
+
+                newDiv.innerHTML = ` 
+                    <div>
+                        <img src="${modelImage}" class="carImg">
                     </div>
+                    <div class="carInfo"> 
+                        <p>${modelName}</p>
+                        <p>${eventSelected.eventPickup}</p>
+                        <p>${modelCapacity}</p>
+                        <p>₱ ${eventSelected.eventPrice}</p>
+                        <Button id="btn"> Book </Button>
+                        </div>
                 
                 
             `;
