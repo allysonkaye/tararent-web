@@ -132,6 +132,7 @@
         // console.log(eventSelected)
 
         const back = document.getElementById('back');
+        
 
         const event = document.getElementById('eventName');
         const dateFrom = document.getElementById('dateFrom');
@@ -148,26 +149,21 @@
         const date_to = eventSelected.eventDateTo;
         const date_from = eventSelected.eventDateFrom;
 
-        const dateToString = new Date(date_to).toDateString().split(' ').slice(1).join(' ');
-        const dateFromString = new Date(date_from).toDateString().split(' ').slice(1).join(' ');
+        const dateToString = new Date(date_to).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        const dateFromString = new Date(date_from).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
         event.innerText = `${eventSelected.eventName}`;
         dateFrom.innerText = `${dateToString}`;
         dateTo.innerText = `${dateToString}`;
         venue.innerText = `${eventSelected.eventVenue}`;
 
-        // carmodel.innerHTML = `${eventSelected.CarModelEX}`;
         
         // console.log(carsDataRef)
-
-
-        function populateCars(carData, driverName) {
+        // new solution
+        function populateCars(carData, driverName){
             const carDataBody = document.getElementById("carsContent");
             // carDataBody.innerHTML = '';
-
-
-            carData.forEach(childSnapshot => {
-
+            carData.forEach(childSnapshot =>{
                 const carData = childSnapshot.val();
 
                 const modelBrand = carData.modelBrand;
@@ -176,40 +172,37 @@
                 const modelName = carData.modelName;
                 const modelType = carData.modelType;
                 const modelYear = carData.modelYear;
-            
 
-               
+                
+
                 const newDiv = document.createElement('div');
-
-                newDiv.id = 'carBox';
-
-                newDiv.innerHTML = ` 
+                newDiv.id = "carBox";
+                newDiv.innerHTML =`
                     <div>
                         <img src="${modelImage}" class="carImg">
                     </div>
                     <div class="carInfo"> 
                         <p>${modelName}</p>
                         <p>${eventSelected.eventPickup}</p>
-                        <p>${modelCapacity}</p>
+                        <p>${modelCapacity} Person Available</p>
                         <p>₱ ${eventSelected.eventPrice}</p>
                         <Button id="btn"> Book </Button>
-                        </div>
-                
-                
-            `;
+                    </div>
+                `;
+                carDataBody.appendChild(newDiv);
+                console.log(newDiv)
 
-            carDataBody.appendChild(newDiv);
-            // console.log(carData);
-            console.log(newDiv);
-            btn.addEventListener('click', () => {
+                newDiv.addEventListener('click', () => {
+                    sessionStorage.setItem('car-selected', JSON.stringify(carData));
+                    sessionStorage.setItem('carDriver-selected', JSON.stringify(driverName));
+                    window.location.href = "confirmed.html";
+                });
                 
-                sessionStorage.setItem('car-selected', JSON.stringify(carData));
-                sessionStorage.setItem('carDriver-selected', JSON.stringify(driverName));
-                window.location.href = "confirmed.html";
-            });
+                
+                
             })
-           
-        }
+        };
+
 
         // REFERENCES
         const carDataRef = ref(db, `Events/${eventSelected.eventName}/Cars`);
@@ -274,15 +267,7 @@
                                     }
                                 })
 
-
-                                
-
-                                
                              })
-                             
-
-                            // console.log(carData)
-                            
                             
                         } else {
                             

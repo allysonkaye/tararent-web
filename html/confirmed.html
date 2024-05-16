@@ -115,7 +115,8 @@
 
 <script type="module" >
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+    import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyBAntVFheC4AyJ5n6BGMvZzbfJtisDGafw",
@@ -130,6 +131,8 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
+    const auth = getAuth(app);
+
 
     let userCreds = JSON.parse(sessionStorage.getItem("user-creds"));
     let userInfo = JSON.parse(sessionStorage.getItem("user-info"));
@@ -164,7 +167,7 @@
         console.log(carDriverSelected);
         console.log(userCreds.uid);
 
-        const userUid = userCreds.uid;
+        
 
         carName.innerText = `${carSelected.modelName}`;
         place.innerText = `${eventSelected.eventVenue}`;
@@ -175,46 +178,36 @@
         Totalprice.innerText = `${eventSelected.eventPrice}`;
 
         
-        const userRef = ref(db, `user/${userUid}/`);
-        console.log(userRef)
 
+       
+        
     book.addEventListener('click', () => {
+        // get current user id
+        const uid = auth.currentUser.uid;
+        console.log(uid)
 
-        const bookingData = {
-        // bookingId: bookingIdInput.value,
-        modelImage: carSelected.modelImage,
-        eventName: eventName.value,
-        carName: carName.value,
-        driverName: driverName.value,
-        DateTo: eventSelected.eventDateTo,
-        price: price.value,
+        // get bookingid
+        const getId = eventSelected.value + carDriverSelected + uid;
+        console.log(getId)
+        const bookingId = getId.replace(/\s/g, '');
+        console.log(bookingId)
 
-     };
 
-        const userRef = ref(db, `user/${userUid}`);
-
-        set(userRef, bookingData)
-        .then((snapshot)=>{
-            const bookingId = snapshot.uid; // Get the generated key
-            const completeBookingData = { // Combine booking ID and data
-            bookingId,
-            bookingData,
-        };
-
-        const userBookingRef = ref(db, `user/${userUid}/${bookingId}`);
-
-        set(userBookingRef, completeBookingData)
-            .then(()=> {
-                console.log(`Booking data added successfully! Booking ID: ${bookingId}`);
-            })
-            .catch((error) => {
-            console.error('Error setting complete booking data:', error);
-            });
-
+        set(ref(db, `user/${uid}/${uid}/${bookingId} `), {
+            bookingId: bookingId,
+            modelImage: carSelected.modelImage,
+            eventName: eventName.value,
+            carName: carName.value,
+            driverName: driverName.value,
+            DateTo: eventSelected.eventDateTo,
+            price: price.value,
         })
-            .catch((error) => {
-            console.error('Error adding booking data:', error);
-            });
+        .then(()=> {
+            Alert('data saved successfully');
+        })
+        .catch ((error)=> {
+            alert(error);
+        })
 
 
     });

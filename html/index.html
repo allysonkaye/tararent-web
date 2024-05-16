@@ -6,18 +6,22 @@
     <title>Document</title>
     <link rel="stylesheet" href="/styling/style.css">
     <script src="https://kit.fontawesome.com/9339802a43.js" crossorigin="anonymous"></script>
+
 </head>
 <style>
     #eventContent {
         display: grid;
-        grid-template-columns: auto auto;
+        grid-template-columns: auto auto auto;
         justify-items: center;
     }
     #eventBox {
         display: flex;
+        justify-content: center;
         align-items: flex-start;
+        margin-bottom: 20px;
         flex-direction: column;
         width: 250px;
+        height: 200px;
         border: 0.5px solid grey;
         border-radius: 20px;
         padding: 10px;
@@ -92,8 +96,6 @@
     const check = document.getElementById("check");
 
     
-
-    
     
 
     let CheckCreds = () => {
@@ -105,8 +107,8 @@
     else {
         console.log(userCreds);
         // console.log(userInfo);
-        // FUNCTIONS
-        
+
+        // DISPLAY DATA
         function populateEvent(eventData){
             const eventDataBody = document.getElementById("eventContent");
             eventDataBody.innerHTML = '';
@@ -119,28 +121,63 @@
                 const description = eventData.eventDescription;
                 const pickup = eventData.eventPickup;
 
-                const dateToString = new Date(date_to).toDateString().split(' ').slice(1).join(' ');
-                const dateFromString = new Date(date_from).toDateString().split(' ').slice(1).join(' ');
+                
+                const dateToString = new Date(date_to).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+                const dateFromString = new Date(date_from).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
                 const newDiv = document.createElement('div');
                 newDiv.id = "eventBox";
                 newDiv.innerHTML =`
                     <p class = "event">${name}</p>
-                    <p>${venue}</p>
-                    <p>${dateToString}</p>
-                    <p>${dateFromString}</p>
-                    <p>${pickup}</p>
+                    <p>Venue: ${venue}</p>
+                    <p>To: ${dateToString}</p>
+                    <p>From: ${dateFromString}</p>
+                    <p>Pickup: ${pickup}</p>
                 `;
-                eventDataBody.appendChild(newDiv);
-                console.log(eventData)
-                newDiv.addEventListener('click', () => {
-                    sessionStorage.setItem('Event-selected', JSON.stringify(eventData));
-                    window.location.href = "cars.html";
-                });
                 
+                // CHECK IF DATE ALREADY PASSED
+                function isFutureDate(inputDate) {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0); 
+
+                    const inputDateObject = new Date(inputDate); 
+
+                    
+                    return inputDateObject > today;
+                    }
+
+                function formatDate(date) {
+                    const year = date.getFullYear();
+                    const month = String(date.getMonth() + 1).padStart(2, '0'); 
+                    const day = String(date.getDate()).padStart(2, '0'); 
+
+                    return `${year}/${month}/${day}`;
+                }
+
+                    
+                const inputDate = date_to; // yyyy/mm/dd 
+
+                if (isFutureDate(inputDate)) {
+                    // Display Events
+                    eventDataBody.appendChild(newDiv);
+                    console.log(eventData)
+                    newDiv.addEventListener('click', () => {
+                        sessionStorage.setItem('Event-selected', JSON.stringify(eventData));
+                        window.location.href = "cars.html";
+                        });
+                    } else {
+                    console.log("The event has already passed.");
+                }
+
+                // eventDataBody.appendChild(newDiv);
+                // console.log(eventData)
+                // newDiv.addEventListener('click', () => {
+                //     sessionStorage.setItem('Event-selected', JSON.stringify(eventData));
+                //     window.location.href = "cars.html";
+                //     });
+
                 
-                // console.log(dateToString)
-                // console.log(dateFromString)
             });
         }
 
