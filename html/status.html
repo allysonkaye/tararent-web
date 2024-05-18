@@ -30,8 +30,12 @@
         </div>
     </div>
     <h1 class="pageName"> RENTS</h1>
+
+    <div id="userEvent">
+
+    </div>
     
-    <div class="nosts">
+    <!-- <div class="nosts">
         <a href="index.html" target="_self"> <Button> Look for vehicle </Button></a>
     </div>
 
@@ -44,7 +48,95 @@
             </div>
             
         </div>
-    </div>
+    </div> -->
 
 </body>
+<script type="module" >
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+    import { getDatabase, ref, set, push, onValue, update, increment } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+
+    // import Swal from 'sweetalert2';
+
+
+    // const Swal = require('sweetalert2');
+    const firebaseConfig = {
+        apiKey: "AIzaSyBAntVFheC4AyJ5n6BGMvZzbfJtisDGafw",
+        authDomain: "admintararent.firebaseapp.com",
+        databaseURL: "https://admintararent-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "admintararent",
+        storageBucket: "admintararent.appspot.com",
+        messagingSenderId: "419063988334",
+        appId: "1:419063988334:web:c2e91de332e34e53c6267f",
+        measurementId: "G-619H3PF5LZ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+
+    let userCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+    const uid = userCreds.uid;
+    // console.log(uid)
+
+    // ref
+    const userAvailRef = ref(db, `user/${uid}/Avails/`);
+
+
+    function populateEventsUser(userEvent) {
+        const eventsUserBody = document.getElementById("userEvent");
+        userEvent.forEach(childSnapshot => {
+            const userEvent = childSnapshot.val();
+            const id = userEvent.bookingId;
+            const carName = userEvent.carName;
+            const dateTo = userEvent.dateTo;
+            const driver = userEvent.driverName;
+            const event = userEvent.eventName;
+            const carImg = userEvent.modelImage;
+            const price = userEvent.price;
+            const currentDate = userEvent.currentDate;
+
+            const dateToString = new Date(currentDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+
+            const newDiv = document.createElement('div');
+            newDiv.innerHTML = `
+            <img src="${carImg}" width="100px">
+            <div>
+                <p>${carName} </p>
+                <p>Booked on ${dateToString} </p>
+            </div>
+            
+            `;
+            eventsUserBody.appendChild(newDiv);
+            newDiv.addEventListener('click', () => {
+                sessionStorage.setItem('rent-selected', JSON.stringify(userEvent));
+                window.location.href = 'rentInfo.html';
+            })
+
+        })
+    };
+
+    onValue(userAvailRef, (snapshot) => {
+        const userEvent = [];
+        console.log(snapshot.val())
+        const avail = snapshot.exists();
+        console.log(avail)
+
+        if (avail) {
+            console.log ('beh may laman')
+            snapshot.forEach((childSnapshot) => {
+                userEvent.push(childSnapshot);
+            });
+            populateEventsUser(userEvent);
+            
+
+        } else {
+            console.log('walang laman')
+        }
+        
+    })
+
+
+</script>
 </html>

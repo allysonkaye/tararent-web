@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styling/style.css">
+    <script src="https://kit.fontawesome.com/9339802a43.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img class="logoImg" src="/src/tara rent.png" width="50px" height="50px">
+         <p class="logoName">TARA RENT</p>
+        </div>
+        <div class="user">
+           <a href="profile.html" target="_self" >
+            <i class="fa-regular fa-user fa-2x" style="color: #131415;"> </i>
+           </a> 
+        </div>
+        
+    </nav>
+
+    <h1 class="pageName"> RENTS</h1>
+
+    <a href="status.html" class="back" id="back"> <i class="fa-solid fa-arrow-left fa-2x" style="color: #f49060;"></i></a>
+
+    <div id="content">
+        <h2>Carpooling Details</h2>
+        <div id="rentInfo">
+            <div id="car">
+
+            </div>
+            <div id="details">
+                <div class="col">
+                    <p></p>
+                    <p id="id"></p>
+                </div>
+                <div class="col">
+                    <p></p>
+                    <p id="driver"></p>
+                </div>
+                <div class="col">
+                    <p></p>
+                    <p id="bookedOn"></p>
+                </div>
+                <div class="col">
+                    <p></p>
+                    <p id="event"></p>
+                </div>
+                <div class="col">
+                    <p></p>
+                    <p id="departure"></p>
+                </div>
+                <div class="col">
+                    <p></p>
+                    <p id="pax"></p>
+                </div>
+                <div class="col">
+                    <p></p>
+                    <p id="pickup"></p>
+                </div>
+            </div>
+        </div>
+        <div id="paymentInfo">
+            <div class="colP">
+                <p></p>
+                <p id="subtotal"></p>
+            </div>
+            <div class="colP">
+                <p></p>
+                <p id="total"></p>
+            </div>
+
+        </div>
+        <button id="cancel">Cancel Booked</button>
+    </div>
+    
+
+        <a href="index.html" target="_self"> <Button> Look for vehicle </Button></a>
+    </div>
+
+
+
+</body>
+<script type="module">
+    let eventInfo = JSON.parse(sessionStorage.getItem("rent-selected"));
+    const back = document.getElementById("back");
+    const event = document.getElementById("event");
+    const id = document.getElementById("id");
+    const driver = document.getElementById("driver");
+    const bookedOn = document.getElementById("bookedOn");
+    const departure = document.getElementById("departure");
+    const pax = document.getElementById("pax");
+    const pickup = document.getElementById("pickup");
+    const subtotal = document.getElementById("subtotal");
+    const total = document.getElementById("total");
+    const cancel = document.getElementById("cancel");
+
+
+
+    back.addEventListener("click", () => {
+
+        sessionStorage.removeItem(eventInfo);
+        window.location.href = 'status.html';
+
+    });
+
+    console.log(eventInfo)
+
+    id.innerText = `${eventInfo.bookingId}`;
+
+
+
+    
+
+</script>
+</html>
