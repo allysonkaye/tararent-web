@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/styling/style.css">
     <!-- <link rel="stylesheet" href="/styling/profile.css"> -->
     <script src="https://kit.fontawesome.com/9339802a43.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <style>
     .back {
@@ -115,9 +116,13 @@
 
 <script type="module" >
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-    import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+    import { getDatabase, ref, set, push, onValue, update, increment } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
     import { getAuth } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
 
+    // import Swal from 'sweetalert2';
+
+
+    // const Swal = require('sweetalert2');
     const firebaseConfig = {
         apiKey: "AIzaSyBAntVFheC4AyJ5n6BGMvZzbfJtisDGafw",
         authDomain: "admintararent.firebaseapp.com",
@@ -162,57 +167,154 @@
         });
 
 
-        console.log(carSelected);
-        console.log(eventSelected);
-        console.log(carDriverSelected);
-        console.log(userCreds.uid);
+    console.log(carSelected);
+    console.log(eventSelected);
+    console.log(carDriverSelected);
+    console.log(userCreds.uid);
 
         
 
-        carName.innerText = `${carSelected.modelName}`;
-        place.innerText = `${eventSelected.eventVenue}`;
-        eventName.innerText = `${eventSelected.eventName}`;
-        dateFrom.innerText = `${eventSelected.eventDateFrom}`;
-        driverName.innerText = carDriverSelected;
-        price.innerText = `${eventSelected.eventPrice}`;
-        Totalprice.innerText = `${eventSelected.eventPrice}`;
+    carName.innerText = `${carSelected.modelName}`;
+    place.innerText = `${eventSelected.eventVenue}`;
+    eventName.innerText = `${eventSelected.eventName}`;
+    dateFrom.innerText = `${eventSelected.eventDateFrom}`;
+    driverName.innerText = carDriverSelected;
+    price.innerText = `${eventSelected.eventPrice}`;
+    Totalprice.innerText = `${eventSelected.eventPrice}`;
 
-        
+    // get current user id
+    const uid = auth.currentUser.uid;
+    console.log(uid)
 
-       
-        
-    book.addEventListener('click', () => {
-        // get current user id
-        const uid = auth.currentUser.uid;
-        console.log(uid)
+    // generate bookingid
+    const getId = eventSelected.eventName + carDriverSelected + uid;
+    const bookingId = getId.replace(/\s/g, '');
+    // console.log(bookingId)
 
-        // get bookingid
-        const getId = eventSelected.value + carDriverSelected + uid;
-        console.log(getId)
-        const bookingId = getId.replace(/\s/g, '');
-        console.log(bookingId)
-
-
-        set(ref(db, `user/${uid}/${uid}/${bookingId} `), {
+    
+       // function to write
+       function addingBooked() {
+        // write the data to users
+        set(ref(db, `user/${uid}/Avails/` + bookingId), {
             bookingId: bookingId,
             modelImage: carSelected.modelImage,
-            eventName: eventName.value,
-            carName: carName.value,
-            driverName: driverName.value,
+            eventName: eventSelected.eventName,
+            carName: carSelected.modelName,
+            driverName: carDriverSelected,
             DateTo: eventSelected.eventDateTo,
-            price: price.value,
+            price: eventSelected.eventPrice,
         })
         .then(()=> {
-            Alert('data saved successfully');
+            Swal.fire({
+                title: "Booked Successfully",
+                text: "Thank you so much!",
+                icon: "success"
+            });
         })
         .catch ((error)=> {
             alert(error);
         })
 
+        // writing data to events/drivers
+        set(ref(db, `Events/${eventSelected.eventName}/Cars/${carSelected.modelName}/Drivers/${carDriverSelected}/userAvail`), {
+            user: uid
 
+        });
+
+    };
+
+       
+        
+    book.addEventListener('click', () => {
+        
+
+        // get reference
+        const userBooked = ref(db, `user/${uid}/Avails`);
+
+        onValue(userBooked, (snapshot)=> {
+            console.log(snapshot.val())
+            // const id = snapshot.val();
+            // const existingId = id.bookingId;
+
+            
+           if(!snapshot.exists()) {
+                console.log('dito ka mag mag write ng new')
+                addingBooked();
+
+
+            } else {
+                console.log('dito ka mag compare');
+                if (existingId === bookingId) {
+                    console.log('na avail mo na to sis');
+                    Swal.fire("You already booked this car!");
+
+                } else {
+                    console.log('dito ka mag set');
+                    addingBooked();
+                }
+            }
+
+            // if (existingId === bookingId) {
+            //     console.log('na avail mo na to sis');
+            //     Swal.fire("You already booked this car!");
+
+            // } else {
+            //     console.log('dito ka mag set');
+                
+
+            //     // write the data to users
+            //     set(ref(db, `user/${uid}/Avails/` + bookingId), {
+            //         bookingId: bookingId,
+            //         modelImage: carSelected.modelImage,
+            //         eventName: eventSelected.eventName,
+            //         carName: carSelected.modelName,
+            //         driverName: carDriverSelected,
+            //         DateTo: eventSelected.eventDateTo,
+            //         price: eventSelected.eventPrice,
+            //     })
+            //     .then(()=> {
+            //         Swal.fire({
+            //             title: "Booked Successfully",
+            //             text: "Thank you so much!",
+            //             icon: "success"
+            //         });
+            //     })
+            //     .catch ((error)=> {
+            //         alert(error);
+            //     })
+
+
+                // function para mabawas ung pax na available
+
+                // function na i end ung sessionText then go to another file
+            // }
+
+        })
     });
+
+ 
+
     
     
+    
+    // function checkPax() {
+
+    //     const paxRef = ref(db, `Cars/${carSelected.modelName}/modelCapacity`);
+        
+    //     // const updates = {};
+    //     // updates[`Cars/${carSelected.modelName}/modelCapacity`] = increment(1);
+    //     // update(db, updates); 
+    //     onValue(paxRef, (snapshot)=>{
+    //         const pax = snapshot.val();
+    //         // const countPax = pax.modelCapacity;
+    //         console.log(pax)
+    //         const newPax = Math.max(pax - 1, 0);
+
+    //         paxRef.update({ modelPax: newPax });
+    //     })
+    // };
+
+    // window.addEventListener('click', checkPax);
 
 </script>
 </body>
