@@ -38,6 +38,7 @@
     background-color: #FCF9F7;
     border: 0.5px solid grey;
     border-radius: 20px;
+    margin-bottom: 20px;
     
 }
 #carBox {
@@ -160,9 +161,9 @@
         
         // console.log(carsDataRef)
         // new solution
-        function populateCars(carData, driverName){
+        function populateCars(carData, driverName, seats){
             const carDataBody = document.getElementById("carsContent");
-            // carDataBody.innerHTML = '';
+            
             carData.forEach(childSnapshot =>{
                 const carData = childSnapshot.val();
 
@@ -184,7 +185,7 @@
                     <div class="carInfo"> 
                         <p>${modelName}</p>
                         <p>${eventSelected.eventPickup}</p>
-                        <p>${modelCapacity} Person Available</p>
+                        <p>${seats} Available Seats</p>
                         <p>₱ ${eventSelected.eventPrice}</p>
                         <Button id="btn"> Book </Button>
                     </div>
@@ -236,11 +237,11 @@
                             const carData = [];
                             const driverData = [];
 
-                            //  console.log(carInfo);
+                             console.log(carInfo);
                              
                              const carName = carInfo.modelName;
                              const carCapacity = carInfo.modelCapacity;
-
+                            console.log(carCapacity)
                              
                              //ref
                              const driverRef = ref(db, `Events/${eventSelected.eventName}/Cars/${carName}/Drivers`);
@@ -252,17 +253,29 @@
                                     const driverInfo = snapshot.val();
                                     const driverFirebase = snapshot;
                                     const driverActive = driverInfo.active;
+                                    const driverName = driverInfo.driverName;
+                                    console.log(driverName)
 
                                     if (driverActive === "true") {
-                                        // const driverData = [];
-                                        const driverName = driverInfo.driverName;
-                                        // console.log(driverName)
-                                         carData.push(carFirebase); // add the car info in an object
-                                        //  carData.push(driverFirebase);
+                                        const usersOnEvent = ref(db, `Events/${eventSelected.eventName}/Cars/${carName}/Drivers/${driverName}/Users`);
+                                        onValue(usersOnEvent, (snapshot)=> {
+                                            const childSize = snapshot.size;
+
+                                            if (carCapacity > childSize) {
+                                                console.log('may space pa');                                                                                                                            
+
+                                                const driverName = driverInfo.driverName;
+                                                // console.log(driverName)
+                                                carData.push(carFirebase); // add the car info in an object
+                                                //  carData.push(driverFirebase);
+                                                const seats = carCapacity - childSize;
+                                                
+                                                console.log(carInfo);
+                                                console.log(driverName);
+                                                populateCars(carData, driverName, seats);
+                                            }
+                                        })
                                         
-                                        console.log(carInfo);
-                                        console.log(driverName);
-                                        populateCars(carData, driverName);
                                         
                                     }
                                 })

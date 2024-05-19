@@ -105,10 +105,6 @@
         <h2 class="Payment">Payment</h2>
         <div class="payment">
             <div class="info">
-                <p>Subtotal:</p>
-                <p id="price"></p>
-            </div>
-            <div class="info">
                 <p>Total:</p>
                 <p id="Totalprice"></p>
             </div>
@@ -154,7 +150,6 @@
     
     let carName = document.getElementById("car");
     let Totalprice = document.getElementById("Totalprice");
-    let price = document.getElementById("price");
     let place = document.getElementById("place");
     let eventName = document.getElementById("eventName");
     let dateFrom = document.getElementById("dateFrom");
@@ -186,8 +181,7 @@
         dateFrom.innerText = `${eventSelected.eventDateFrom}`;
         dateTo.innerText = `${eventSelected.eventDateTo}`;
         driverName.innerText = carDriverSelected;
-        price.innerText = `${eventSelected.eventPrice}`;
-        Totalprice.innerText = `${eventSelected.eventPrice}`;
+        Totalprice.innerText = `₱ ${eventSelected.eventPrice}`;
 
         // get current user id
         const uid = userCreds.uid;
@@ -195,15 +189,21 @@
 
         // current date 
 
+        function formatDate(date) {
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString().split('T')[0];
+            }
 
-        const currentDate = new Date().toLocaleDateString('en-US');
+        // Example usage
+        const today = new Date();
+        const currentDate = formatDate(today);
         console.log(currentDate);
+            
         
 
         // get bookingid
         const getId = eventSelected.eventName + carDriverSelected + uid;
         const bookingId = getId.replace(/\s/g, '');
-        console.log(bookingId)
+        // console.log(bookingId)
 
         function addUidToEvents() {
             set(ref(db, `Events/${eventSelected.eventName}/Cars/${carSelected.modelName}/Drivers/${carDriverSelected}/Users/` + uid),{
@@ -331,12 +331,15 @@
        
        
         const bookedRef = ref(db, `user/${uid}/Avails/`);
-        onValue(bookedRef, (snapshot)=> {     
-            if (snapshot.hasChildren()) {
+        onValue(bookedRef, (snapshot)=> {   
+            
+            
+            
+            if (snapshot.exists()) {
                 // true ang sagot
                 addingDataToUsers();
                 console.log('hindi mo na to first time')
-            } else if (!snapshot.hasChildren()) {
+            } else {
                 
                 console.log('first time')
                 addUserFirstTime();
