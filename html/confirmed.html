@@ -90,6 +90,10 @@
                 <p id="dateFrom"></p>
             </div>
             <div class="info">
+                <p> Departure</p>
+                <p id="dateTo"></p>
+            </div>
+            <div class="info">
                 <p>Name of Driver</p>
                 <p id="driver"></p>
             </div>
@@ -154,6 +158,7 @@
     let place = document.getElementById("place");
     let eventName = document.getElementById("eventName");
     let dateFrom = document.getElementById("dateFrom");
+    let dateTo = document.getElementById("dateTo");
     let driverName = document.getElementById("driver");
     let pax = document.getElementById("pax").value;
 
@@ -179,6 +184,7 @@
         place.innerText = `${eventSelected.eventVenue}`;
         eventName.innerText = `${eventSelected.eventName}`;
         dateFrom.innerText = `${eventSelected.eventDateFrom}`;
+        dateTo.innerText = `${eventSelected.eventDateTo}`;
         driverName.innerText = carDriverSelected;
         price.innerText = `${eventSelected.eventPrice}`;
         Totalprice.innerText = `${eventSelected.eventPrice}`;
@@ -245,6 +251,7 @@
                     carName: carSelected.modelName,
                     driverName: carDriverSelected,
                     dateTo: eventSelected.eventDateTo,
+                    dateFrom: eventSelected.eventDateFrom,
                     price: eventSelected.eventPrice,
                     currentDate: currentDate,
                     pickUp: eventSelected.eventPickup
@@ -285,6 +292,7 @@
                     carName: carSelected.modelName,
                     driverName: carDriverSelected,
                     dateTo: eventSelected.eventDateTo,
+                    dateFrom: eventSelected.eventDateFrom,
                     price: eventSelected.eventPrice,
                     currentDate: currentDate,
                     pickUp: eventSelected.eventPickup

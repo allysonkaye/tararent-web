@@ -7,6 +7,61 @@
     <link rel="stylesheet" href="/styling/style.css">
     <script src="https://kit.fontawesome.com/9339802a43.js" crossorigin="anonymous"></script>
 </head>
+<style>
+    #content {
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        /* align-items: center; */
+        width: 50%;
+        margin: auto;
+        margin-bottom: 20px;
+
+    }
+    #img {
+        width: 300px;
+        border-radius: 15px;
+    }
+    #car {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+    #nameCar {
+        font-size: 25px;
+        font-weight: 700;
+    }
+    .col{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    #rentInfo {
+        border: 0.5px solid #676767;
+        border-radius: 20px;
+        padding: 10px;
+
+    }
+    #cancel {
+        width: 120px;
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+        align-self: flex-start;
+        background-color: #E99060;
+        padding: 10px;
+        border: none;
+        border-radius: 30px;
+        margin: auto;
+        font-weight: 700;
+
+    }
+    .back {
+        margin-left: 50px;
+    }
+</style>
 <body>
     <nav>
         <div class="logo">
@@ -21,7 +76,7 @@
         
     </nav>
 
-    <h1 class="pageName"> RENTS</h1>
+    <h1 class="pageName"> RENT INFORMATION</h1>
 
     <a href="status.html" class="back" id="back"> <i class="fa-solid fa-arrow-left fa-2x" style="color: #f49060;"></i></a>
 
@@ -29,75 +84,75 @@
         <h2>Carpooling Details</h2>
         <div id="rentInfo">
             <div id="car">
-
+                <img id="img">
+                <p id="nameCar"></p>
             </div>
             <div id="details">
                 <div class="col">
-                    <p></p>
+                    <p>Booking Number:</p>
                     <p id="id"></p>
                 </div>
                 <div class="col">
-                    <p></p>
+                    <p>Driver:</p>
                     <p id="driver"></p>
                 </div>
                 <div class="col">
-                    <p></p>
+                    <p>Booked On:</p>
                     <p id="bookedOn"></p>
                 </div>
                 <div class="col">
-                    <p></p>
+                    <p>Event:</p>
                     <p id="event"></p>
                 </div>
                 <div class="col">
-                    <p></p>
+                    <p>Departure: </p>
                     <p id="departure"></p>
                 </div>
                 <div class="col">
-                    <p></p>
-                    <p id="pax"></p>
+                    <p>Pax:</p>
+                    <p id="pax">1</p>
                 </div>
                 <div class="col">
-                    <p></p>
+                    <p>Pick Up: </p>
                     <p id="pickup"></p>
                 </div>
             </div>
         </div>
+        <h2>Payment Details</h2>
         <div id="paymentInfo">
-            <div class="colP">
-                <p></p>
+            
+            <div class="col">
+                <p>Subtotal:</p>
                 <p id="subtotal"></p>
             </div>
-            <div class="colP">
-                <p></p>
+            <div class="col">
+                <p>Total:</p>
                 <p id="total"></p>
             </div>
 
         </div>
         <button id="cancel">Cancel Booked</button>
     </div>
-    
-
-        <a href="index.html" target="_self"> <Button> Look for vehicle </Button></a>
-    </div>
-
 
 
 </body>
 <script type="module">
     let eventInfo = JSON.parse(sessionStorage.getItem("rent-selected"));
-    const back = document.getElementById("back");
-    const event = document.getElementById("event");
-    const id = document.getElementById("id");
-    const driver = document.getElementById("driver");
-    const bookedOn = document.getElementById("bookedOn");
-    const departure = document.getElementById("departure");
-    const pax = document.getElementById("pax");
-    const pickup = document.getElementById("pickup");
-    const subtotal = document.getElementById("subtotal");
-    const total = document.getElementById("total");
-    const cancel = document.getElementById("cancel");
+    let back = document.getElementById("back");
+    let event = document.getElementById("event");
+    let id = document.getElementById("id");
+    let driver = document.getElementById("driver");
+    let bookedOn = document.getElementById("bookedOn");
+    let departure = document.getElementById("departure");
+    let pax = document.getElementById("pax");
+    let pickup = document.getElementById("pickup");
+    let subtotal = document.getElementById("subtotal");
+    let total = document.getElementById("total");
+    
+    let car = document.getElementById("nameCar");
+    let img = document.getElementById("img");
 
-
+    let cancel = document.getElementById("cancel");
 
     back.addEventListener("click", () => {
 
@@ -105,11 +160,33 @@
         window.location.href = 'status.html';
 
     });
+    let currentDate = new Date(eventInfo.currentDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    let departureTo = new Date(eventInfo.dateTo).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    let departureFrom = new Date(eventInfo.dateFrom).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    
+    let dateEvent = `${departureTo} - ${departureFrom}`;
+    console.log(dateEvent)
 
-    console.log(eventInfo)
+    function showData() {
 
-    id.innerText = `${eventInfo.bookingId}`;
+        
 
+        id.innerText = `${eventInfo.bookingId}`;
+        event.innerText = `${eventInfo.eventName}`;
+        driver.innerText = `${eventInfo.driverName}`;
+        bookedOn.innerText = `${currentDate}`;
+        departure.innerText = `${dateEvent}`;
+        pickup.innerText = `${eventInfo.pickUp}`;
+        subtotal.innerText = `₱ ${eventInfo.price}`;
+        total.innerText = `₱ ${eventInfo.price}`;
+        img.src = `${eventInfo.modelImage}`;
+        car.innerText = `${eventInfo.carName}`;
+
+
+    }
+
+    
+window.addEventListener('load', showData());
 
 
     
