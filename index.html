@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="color-scheme" content="light only">
+    <title>Events</title>
     <link rel="stylesheet" href="/styling/style.css">
+    <link rel="icon" type="image/x-icon" href="src/tara rent.png">
+
     <script src="https://kit.fontawesome.com/9339802a43.js" crossorigin="anonymous"></script>
 
 </head>
@@ -36,6 +39,19 @@
     #eventBox p {
         margin: 5px;
         color: #373737;
+    }
+    @media screen and (max-width:950px) {
+        #eventContent {
+            display: grid;
+            grid-template-columns: auto auto;
+        }
+    }
+    @media screen and (max-width:650px) {
+
+        #eventContent {
+            display: grid;
+            grid-template-columns: auto;
+        }
     }
 </style>
 <body>

@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>confirmed</title>
+    <meta name="color-scheme" content="light only">
+    <title>Confirmed Booking</title>
     <link rel="stylesheet" href="/styling/style.css">
     <!-- <link rel="stylesheet" href="/styling/profile.css"> -->
+    <link rel="icon" type="image/x-icon" href="src/tara rent.png">
+
     <script src="https://kit.fontawesome.com/9339802a43.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -30,7 +33,7 @@
 .info {
     display: flex;
     justify-content: space-between;
-    background-color: #FBEEDF;
+    background-color: #FCF9F7;
     margin: 2px;
     padding: 0px 20px;
 }
@@ -50,6 +53,24 @@
     border: none;
     border-radius: 30px;
     font-weight: 700;
+}
+@media screen and (max-width:950px) {
+    .carpooling, .payment {
+        width: 70%;
+    }
+}
+@media screen and (max-width:660px) {
+    .info {
+        display: flex;
+        flex-direction: column;
+    }
+    .info p {
+        margin: 5px 0px;
+    }
+    .carpooling, .payment {
+        width: 80%;
+    }
+
 }
 </style>
 <body>
@@ -74,31 +95,27 @@
         <h2> Carpooling Details</h2>
         <div class="carpooling">
             <div class="info">
-                <p>Car </p>
+                <p>Car: </p>
                 <p id="car"></p>
             </div>
             <div class="info">
-                <p>Destination</p>
+                <p>Destination:</p>
                 <p id="place"></p>
             </div>
             <div class="info">
-                <p>Event</p>
+                <p>Event:</p>
                 <p id="eventName"></p>
             </div>
             <div class="info">
-                <p> Departure</p>
+                <p> Departure:</p>
                 <p id="dateFrom"></p>
             </div>
             <div class="info">
-                <p> Departure</p>
-                <p id="dateTo"></p>
-            </div>
-            <div class="info">
-                <p>Name of Driver</p>
+                <p>Name of Driver:</p>
                 <p id="driver"></p>
             </div>
             <div class="info">
-                <p>Pax</p>
+                <p>Pax:</p>
                 <p id="pax">1</p>
             </div>
         </div>
@@ -153,7 +170,6 @@
     let place = document.getElementById("place");
     let eventName = document.getElementById("eventName");
     let dateFrom = document.getElementById("dateFrom");
-    let dateTo = document.getElementById("dateTo");
     let driverName = document.getElementById("driver");
     let pax = document.getElementById("pax").value;
 
@@ -173,13 +189,22 @@
         console.log(carDriverSelected);
         console.log(userCreds.uid);
 
-        
+         // combine dateTo and dateFrom
 
+         const date_to = eventSelected.eventDateTo;
+        const date_from = eventSelected.eventDateFrom;
+
+        const dateToString = new Date(date_to).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        const dateFromString = new Date(date_from).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+         const departure = `${dateFromString} - ${dateToString} `;
+
+         console.log(departure)
+
+        // display event selected
         carName.innerText = `${carSelected.modelName}`;
         place.innerText = `${eventSelected.eventVenue}`;
         eventName.innerText = `${eventSelected.eventName}`;
-        dateFrom.innerText = `${eventSelected.eventDateFrom}`;
-        dateTo.innerText = `${eventSelected.eventDateTo}`;
+        dateFrom.innerText = `${departure}`;
         driverName.innerText = carDriverSelected;
         Totalprice.innerText = `₱ ${eventSelected.eventPrice}`;
 
@@ -197,6 +222,8 @@
         const today = new Date();
         const currentDate = formatDate(today);
         console.log(currentDate);
+
+       
             
         
 
@@ -320,9 +347,6 @@
                 .catch ((error)=> {
                     alert(error);
                 })
-
-
-
         };
        
         
@@ -345,12 +369,6 @@
                 addUserFirstTime();
                 
             }
-            
-
-             //     // function para mabawas ung pax na available
-
-             //     // function na i end ung sessionText then go to another file
-             // }
 
          })
     });
@@ -358,24 +376,7 @@
     
     
     
-    // function checkPax() {
 
-    //     const paxRef = ref(db, `Cars/${carSelected.modelName}/modelCapacity`);
-        
-    //     // const updates = {};
-    //     // updates[`Cars/${carSelected.modelName}/modelCapacity`] = increment(1);
-    //     // update(db, updates); 
-    //     onValue(paxRef, (snapshot)=>{
-    //         const pax = snapshot.val();
-    //         // const countPax = pax.modelCapacity;
-    //         console.log(pax)
-    //         const newPax = Math.max(pax - 1, 0);
-
-    //         paxRef.update({ modelPax: newPax });
-    //     })
-    // };
-
-    // window.addEventListener('click', checkPax);
 
 </script>
 

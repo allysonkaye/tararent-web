@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="color-scheme" content="light only">
+    <title>Rents</title>
     <link rel="stylesheet" href="/styling/style.css">
+    <link rel="icon" type="image/x-icon" href="src/tara rent.png">
+
     <script src="https://kit.fontawesome.com/9339802a43.js" crossorigin="anonymous"></script>
 </head>
 <style>
@@ -17,6 +20,8 @@
 .img {
     width: 200px;
     border-radius: 10px;
+    object-fit: cover;
+
 }
 .noBtn{
     background-color: #E99060 ;
@@ -31,7 +36,7 @@
     flex-direction: row;
     margin: auto;
     width: 50%;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
     gap: 20px;
     border: 0.5px solid #E99060;
@@ -40,6 +45,48 @@
     background-color: #FCF9F7;
     margin-bottom: 10px;
 
+}
+#newPastDiv {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    width: 50%;
+    /* justify-content: space-between; */
+    align-items: center;
+    gap: 20px;
+    border: 0.5px solid #E99060;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: #FCF9F7;
+    margin-bottom: 10px;
+
+}
+#carbox {
+    display: flex;
+    flex-direction: column;
+}
+#title, #title2{
+    text-align: center;
+}
+@media screen and (max-width:650px) {
+    .img {
+        width: 150px;
+    }
+    #newDiv {
+        width: 70%;
+
+    }
+    #newPastDiv {
+        width: 70%;
+    }
+}
+@media screen and (max-width:450px) {
+    #newDiv {
+        width: 80%;
+    }
+    #newPastDiv {
+        width: 80%;
+    }
 }
 
 </style>
@@ -66,8 +113,16 @@
         </div>
     </div>
     <h1 class="pageName"> RENTS</h1>
-
+    
+    <h2 id="title"> Currently</h2>
     <div id="userEvent">
+        
+
+    </div>
+    
+    <h2 id="title2"> Past</h2>
+    <div id="userPast">
+        
 
     </div>
     
@@ -109,39 +164,83 @@
 
 
     function populateEventsUser(userEvent) {
-        const eventsUserBody = document.getElementById("userEvent");
-        userEvent.forEach(childSnapshot => {
-            const userEvent = childSnapshot.val();
-            const id = userEvent.bookingId;
-            const carName = userEvent.carName;
-            const dateTo = userEvent.dateTo;
-            const dateFrom = userEvent.dateFrom;
-            const driver = userEvent.driverName;
-            const event = userEvent.eventName;
-            const carImg = userEvent.modelImage;
-            const price = userEvent.price;
-            const currentDate = userEvent.currentDate;
 
-            const dateToString = new Date(currentDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        // Display Ongoing Events
+        console.log("ongoing");
+            const eventsUserBody = document.getElementById("userEvent");
+            const eventsPastBody = document.getElementById("userPast");
 
+            userEvent.forEach(childSnapshot => {
+                const userEvent = childSnapshot.val();
+                const carName = userEvent.carName;
+                const event = userEvent.eventName;
+                const carImg = userEvent.modelImage;
+                const currentDate = userEvent.currentDate;
 
-            const newDiv = document.createElement('div');
-            newDiv.id = "newDiv";
-            newDiv.innerHTML = `
-            <img src="${carImg}" class="img">
-            <div>
-                <h4>${carName} </h4>
-                <p>Booked on ${dateToString} </p>
-            </div>
-            <i class="fa-solid fa-chevron-right fa-xl" style="color: #e99060;"></i>
-            `;
-            eventsUserBody.appendChild(newDiv);
-            newDiv.addEventListener('click', () => {
-                sessionStorage.setItem('rent-selected', JSON.stringify(userEvent));
-                window.location.href = 'rentInfo.html';
-            })
+                const dateToString = new Date(currentDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-        })
+                const newDiv = document.createElement('div');
+                newDiv.id = "newDiv";
+                newDiv.innerHTML = `
+                
+                    <img src="${carImg}" class="img">
+                    <div>
+                        <h3>${carName} </h3>
+                        <h4>${event} </h4>
+                        <p>Booked on ${dateToString} </p>
+                    </div>
+                
+                `;
+
+                console.log("repeated")
+
+                function isFutureDate(inputDate) {
+                    const today = new Date (userEvent.currentDate);
+                    const inputDateObject = new Date(inputDate); 
+                    return inputDateObject > today;
+                    }
+
+                function formatDate(date) {
+                    const year = date.getFullYear();
+                    const month = String(date.getMonth() + 1).padStart(2, '0'); 
+                    const day = String(date.getDate()).padStart(2, '0'); 
+
+                    return `${year}/${month}/${day}`;
+                }
+
+                const inputDate = userEvent.dateFrom; // yyyy/mm/dd
+
+                if (isFutureDate(inputDate)) {
+
+                    console.log('not passed');
+
+                    eventsUserBody.appendChild(newDiv);
+                    newDiv.addEventListener('click', () => {
+                        sessionStorage.setItem('rent-selected', JSON.stringify(userEvent));
+                        window.location.href = 'rentInfo.html';
+                    })
+
+                    } else {
+                    console.log("The event has already passed.");
+
+                        console.log('executed')
+                        eventsPastBody.appendChild(newDiv);
+                        newDiv.addEventListener('click', () => {
+                            sessionStorage.setItem('rent-selected', JSON.stringify(userEvent));
+                            window.location.href = 'rentInfo.html';
+                        })
+
+                    // }) 
+                    }
+                // 
+                })
+
+        
+        
+        
+
+        
+        
     };
 
     onValue(userAvailRef, (snapshot) => {
@@ -169,7 +268,8 @@
             <a href="index.html" target="_self"> <Button class="noBtn" > Look for vehicle </Button></a>
             `;
             rentBody.appendChild(newD);
-
+            document.getElementById("title").style.visibility = "hidden";
+            document.getElementById("title2").style.visibility = "hidden";
 
         }
         

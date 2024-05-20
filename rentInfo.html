@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="color-scheme" content="light only">
+    <title>Rent Information</title>
     <link rel="stylesheet" href="/styling/style.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="icon" type="image/x-icon" href="src/tara rent.png">
     <script src="https://kit.fontawesome.com/9339802a43.js" crossorigin="anonymous"></script>
 </head>
 <style>
@@ -15,7 +17,7 @@
         flex-direction: column;
         justify-content: center;
         /* align-items: center; */
-        width: 50%;
+        width: 60%;
         margin: auto;
         margin-bottom: 20px;
 
@@ -39,10 +41,15 @@
         flex-direction: row;
         justify-content: space-between;
     }
+    .colP {
+        display: flex;
+        justify-content: space-between;
+    }
     #rentInfo {
         border: 0.5px solid #676767;
         border-radius: 20px;
         padding: 10px;
+        background-color: #FCF9F7;
 
     }
     #cancel {
@@ -61,6 +68,23 @@
     }
     .back {
         margin-left: 50px;
+    }
+    #content h2, p {
+        margin: 10px 0px;
+    }
+    .bkn {
+        overflow-wrap: break-word;
+    }
+
+    @media screen and (max-width:950px) {
+        #content {
+            width: 80%;
+        }
+    }
+    @media screen and (max-width:650px) {
+        .col {
+            flex-flow: column wrap;
+        }
     }
 </style>
 <body>
@@ -90,39 +114,39 @@
             </div>
             <div id="details">
                 <div class="col">
-                    <p>Booking Number:</p>
-                    <p id="id"></p>
+                    <h4>Booking Number:</h4>
+                    <p id="id" class="bkn"></p>
                 </div>
                 <div class="col">
-                    <p>Driver:</p>
+                    <h4>Driver:</h4>
                     <p id="driver"></p>
                 </div>
                 <div class="col">
-                    <p>Booked On:</p>
+                    <h4>Booked On:</h4>
                     <p id="bookedOn"></p>
                 </div>
                 <div class="col">
-                    <p>Event:</p>
+                    <h4>Event:</h4>
                     <p id="event"></p>
                 </div>
                 <div class="col">
-                    <p>Departure: </p>
+                    <h4>Departure: </h4>
                     <p id="departure"></p>
                 </div>
                 <div class="col">
-                    <p>Pax:</p>
+                    <h4>Pax:</h4>
                     <p id="pax">1</p>
                 </div>
                 <div class="col">
-                    <p>Pick Up: </p>
+                    <h4>Pick Up: </h4>
                     <p id="pickup"></p>
                 </div>
             </div>
         </div>
         <h2>Payment Details</h2>
         <div id="paymentInfo">
-            <div class="col">
-                <p>Total:</p>
+            <div class="colP">
+                <h4>Total:</h4>
                 <p id="total"></p>
             </div>
 
@@ -229,7 +253,7 @@
         
         } else {
         console.log("The event has already passed.");
-        // cancel.style.visibility = "hidden";
+        cancel.style.visibility = "hidden";
     }
 
 
@@ -269,14 +293,7 @@
 
     });
 
-
-
-    
-window.addEventListener('load', showData());
-
-
-
-    
+    window.addEventListener('load', showData());
 
 </script>
 </html>

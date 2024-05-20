@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="color-scheme" content="light only">
+    <title>Cars</title>
     <link rel="stylesheet" href="/styling/style.css">
+    <link rel="icon" type="image/x-icon" href="src/tara rent.png">
+
     <script src="https://kit.fontawesome.com/9339802a43.js" crossorigin="anonymous"></script>
 </head>
 <style> 
@@ -41,6 +44,11 @@
     margin-bottom: 20px;
     
 }
+.carName {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 10px 0px;
+}
 #carBox {
     font-size: 18px;
 }
@@ -67,6 +75,19 @@
     border: none;
     border-radius: 30px;
     width: 80px;
+}
+@media screen and (max-width:950px) {
+    #carsContent {
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+ }
+@media screen and (max-width:650px) {
+
+    #carsContent {
+        display: grid;
+        grid-template-columns: auto;
+    }
 }
 </style>
 <body>
@@ -183,7 +204,7 @@
                         <img src="${modelImage}" class="carImg">
                     </div>
                     <div class="carInfo"> 
-                        <p>${modelName}</p>
+                        <p class="carName">${modelName}</p>
                         <p>${eventSelected.eventPickup}</p>
                         <p>${seats} Available Seats</p>
                         <p>₱ ${eventSelected.eventPrice}</p>
