@@ -27,6 +27,10 @@ document.getElementById('submit').addEventListener('click', (e) => {
     const phonenum = document.getElementById('phonenum').value;
     const  place = document.getElementById('place').value;
 
+    if (!fullname || !phonenum || !email || !place || !password) {
+      alert("please fill in all fields!");
+      return;
+    }
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in 
