@@ -277,8 +277,8 @@
                         remove(ref(db, `Events/${eventInfo.eventName}/Cars/${eventInfo.carName}/Drivers/${eventInfo.driverName}/Users/${uid}`))
                         .then (()=> {
                                 Swal.fire({
-                                title: "Deleted!",
-                                text: "Your file has been deleted.",
+                                title: "Cancelled!",
+                                text: "Your booked car has been cancelled.",
                                 icon: "success"
                             })
                             .then (() => {

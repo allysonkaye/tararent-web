@@ -1,5 +1,5 @@
 
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
@@ -41,6 +41,7 @@ document.getElementById('submit').addEventListener('click', (e) => {
 
             )
             alert('created account');
+            window.location.href = "login.html";
             
         })
         .catch((error) => {
